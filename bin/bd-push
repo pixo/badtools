@@ -3,42 +3,53 @@
 import os
 import sys
 import optparse
-import badass.core as core
+import badass.core
+import badass.utils
 
 
-def bdPush(path, description):
+def bdPush(path, description, db):
 
     if not os.path.isabs(path):
         path = os.path.abspath(path)
 
     if not os.path.exists(path):
-        print "hk-texture-publish: %s doesn't exists" % path
+        print "bd-texture-publish: %s doesn't exists" % path
         return 1
 
-    db = core.getDb()
-    doc_id = core.getIdFromPath(path)
+    doc_id = badass.core.getIdFromPath(path)
 
     if not (doc_id in db):
-        print "hk-push: %s isn't in the  database" % doc_id
+        print "bd-push: %s isn't in the  database" % doc_id
         return 1
 
     if os.path.isdir(path):
-        core.pushDir(db=db, doc_id=doc_id, path=path, description=description)
+        badass.core.pushDir(
+            db=db,
+            doc_id=doc_id,
+            path=path,
+            description=description)
 
     else:
-        core.pushFile(db=db, doc_id=doc_id, path=path, description=description)
+        badass.core.pushFile(
+            db=db,
+            doc_id=doc_id,
+            path=path,
+            description=description)
 
 if __name__ == '__main__':
-    parser = optparse.OptionParser()
-    parser.add_option("-p", "--push", help="input file or directory")
-    parser.add_option("-c", "--comment", help="comment")
-    (opts, args) = parser.parse_args()
 
-    if args.push is None:
-        print "No directory or file to push. Please check help, -h"
+    if badass.utils.isEnvSet():
 
-    elif args.comment is None:
-        print "No comments provided. Please check help, -h"
+        parser = optparse.OptionParser()
+        parser.add_option("-p", "--push", help="input file or directory")
+        parser.add_option("-c", "--comment", help="comment")
+        (opts, args) = parser.parse_args()
 
-    else:
-        bdPush(args.push, args.comment)
+        if opts.push is None:
+            print "No directory or file to push. Please check help, -h"
+
+        elif opts.comment is None:
+            print "No comments provided. Please check help, -h"
+
+        else:
+            bdPush(opts.push, opts.comment)
