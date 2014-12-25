@@ -1,0 +1,17 @@
+name : badtools
+uuid : 5f149b14-745c-43ac-bddc-c0cf1a91cd17
+description : "badtools contains a bunch of asset and project managements tools."
+authors : [Rachid Chikh]
+config_version : 0
+version : 0.0.1
+
+requires :
+- badass
+- pyside
+
+commands:
+- export BD_TOOLSVER=!VERSION!
+- export BD_TOOLS=!ROOT!
+- export BD_ICONS=$BD_TOOLS/icons
+- export PYTHONPATH=$BD_TOOLS:$PYTHONPATH
+- export PATH=$PATH:$BD_TOOLS/bin
