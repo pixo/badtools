@@ -71,7 +71,7 @@ class UiCheckDependencies ( QtGui.QMainWindow ):
         return getRefsFromFile ( self.fpath )
 
     def getVersionFromPath ( self, path ):
-        repo = os.getenv ( "BD_REPO" )
+        repo = badass.utils.getRepo()
         result = path.replace ( repo + os.sep, "" )
         version = result.split ( os.sep )[5]
         return version
@@ -271,7 +271,7 @@ class UiCheckDependencies ( QtGui.QMainWindow ):
                                     font-weight:600;\">Asset Updater </span><span style=\" font-size:12pt;
                                     \"/><span style=\" font-size:12pt;font-weight:600;
                                     \">:</span><span style=\" font-size:12pt;
-                                    \"> '%s'</span></p></body></html>""" % ( os.getenv ( "BD_PROJECT" ) ) )
+                                    \"> '%s'</span></p></body></html>""" % ( badass.utils.getProjectName() ) )
 
         self.tableWidget = QtGui.QTableWidget ( len ( self.paths ), 2 )
         self.tableWidget.setHorizontalScrollBarPolicy ( QtCore.Qt.ScrollBarAlwaysOff )

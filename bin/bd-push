@@ -34,11 +34,11 @@ if __name__ == '__main__':
     parser.add_option("-c", "--comment", help="comment")
     (opts, args) = parser.parse_args()
 
-    if opts.push is None:
+    if args.push is None:
         print "No directory or file to push. Please check help, -h"
 
-    elif opts.comment is None:
+    elif args.comment is None:
         print "No comments provided. Please check help, -h"
 
     else:
-        bdPush(opts.push, opts.comment)
+        bdPush(args.push, args.comment)

@@ -1,3 +1,3 @@
 import os
 
-version = os.getenv("BD_TOOLSVER")
+__version__ = os.getenv("BD_TOOLSVER")

@@ -636,14 +636,21 @@ class UiCreateTask (QtGui.QWidget):
         self.labelFork.setPixmap(utils.getIconPath("fork"))
         self.labelFork.setToolTip("Select the fork or create a new one.")
         self.labelComments.setText(QtGui.QApplication.translate(
-            "Form", "<html><head/><body><p><span style=\" font-weight:600;\">Description</span></p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
+            "Form", "<html><head/><body><p><span style=\" font-weight:600;\"\
+            >Description</span></p></body></html>", None,
+            QtGui.QApplication.UnicodeUTF8))
         self.pushButton.setText(QtGui.QApplication.translate(
             "Form", "create", None, QtGui.QApplication.UnicodeUTF8))
 
         # Title
         self.labelSystemTitle.setPixmap(utils.getIconPath("addtask"))
-        self.labelProjectTitle.setText(QtGui.QApplication.translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">%s</span><span style=\" font-size:12pt;\"/><span style=\" font-size:12pt; font-weight:600;\">:</span><span style=\" font-size:12pt;\"> %s %s</span></p></body></html>" % (
-            "Adding Task(s)", self.item.type, self.item.slug), None, QtGui.QApplication.UnicodeUTF8))
+        self.labelProjectTitle.setText(QtGui.QApplication.translate(
+            "MainWindow", "<html><head/><body><p><span style=\" font-size:12pt;\
+            font-weight:600;\">%s</span><span style=\" font-size:12pt;\"/>\
+            <span style=\" font-size:12pt; font-weight:600;\">:</span>\
+            <span style=\" font-size:12pt;\"> %s %s</span></p></body>\
+            </html>" % ("Adding Task(s)", self.item.type, self.item.slug),
+            None, QtGui.QApplication.UnicodeUTF8))
 
         self.createComboxBoxFork()
         self.comboBoxForkChanged()
@@ -921,7 +928,7 @@ class UiAssetManager(QtGui.QMainWindow):
         self.setStatusBar(self.statusbar)
 
         # TODO:Clean it
-        self.user = badass.core.getCurrentUser()
+        self.user = badass.utils.getUser()
         self.users = badass.core.getProjectUsers(self.db)
         self.userStatus = self.users[self.user]
         self.project = badass.utils.getProjectName()
@@ -1147,8 +1154,10 @@ class UiAssetManager(QtGui.QMainWindow):
         self.createFilterForks()
         self.createTree()
         self.treeClicked()
-        self.statusbar.showMessage("Welcome '%s' you are logged as '%s'.This project contain %d assets." % (
-            self.user, self.userStatus, len(self.allAssets)))
+        self.statusbar.showMessage("Welcome '%s' you are logged as '%s'.\
+                                   This project contain %d assets." % (
+                                   self.user, self.userStatus,
+                                   len(self.allAssets)))
 
     def createAsset(self):
         self.createAssetWidget = UiCreateAsset(assetManager=self)
@@ -1176,8 +1185,8 @@ class UiAssetManager(QtGui.QMainWindow):
 
         if ret == QtGui.QMessageBox.Ok:
             # Save was clicked
-            badass.core.setAssetAttr(
-                db=self.db, docId=item.id, attr="inactive", value=not(item.inactive))
+            badass.core.setAssetAttr(db=self.db, docId=item.id,
+                                     attr="inactive", value=not(item.inactive))
             item.inactive = not(item.inactive)
             self.refreshTree()
         else:
@@ -1189,8 +1198,8 @@ class UiAssetManager(QtGui.QMainWindow):
 
     def pushClicked(self):
         item = self.treeWidgetMain.currentItem()
-        self.pushVersionWin = UiPush(
-            db=self.db, item=item, assetManager=self, msgbar=self.statusbar.showMessage)
+        self.pushVersionWin = UiPush(db=self.db, item=item, assetManager=self,
+                                     msgbar=self.statusbar.showMessage)
         self.pushVersionWin.show()
 
     def pullClicked(self):
@@ -1291,7 +1300,7 @@ class UiAssetManager(QtGui.QMainWindow):
         self.buttonReleaseToolBar.setDisabled(stat)
 
     def setDescription(self, item, doc):
-        infos = ""
+        info = ""
         image = utils.getIconPath("title_mid")
 
         if doc:
@@ -1304,10 +1313,7 @@ class UiAssetManager(QtGui.QMainWindow):
             created = "\nCreated:\t%s\n" % created
             description = "\nDescription:\n\t%s\n" % doc[
                 'description'] if ('description' in doc) else ''
-#             status=self.allAssets[item.id]["status"] if (item.id in self.allAssets) else self.allTasks[item.id]["status"]
-#             status="Status:\t%s \n\n"%str(status)
-#             infos=status+creator+created+description
-            infos = creator + created + description
+            info = creator + created + description
 
             # Set screenshot
             if "path" in doc:
@@ -1318,7 +1324,7 @@ class UiAssetManager(QtGui.QMainWindow):
                     if os.path.exists(image):
                         break
 
-        self.plainTextEditInfos.setPlainText(infos)
+        self.plainTextEditInfos.setPlainText(info)
         self.labelImageInfos.setPixmap(image)
 
     def treeClicked(self):
@@ -1357,7 +1363,7 @@ class UiAssetManager(QtGui.QMainWindow):
 
     def versionTypeChanged(self):
         item = self.treeWidgetMain.currentItem()
-        if (not item) or (not item.task):
+        if (not item) or hasattr(item, "task") or not item.task:
             return
         self.taskClicked()
         self.filterTasks()
@@ -1428,9 +1434,8 @@ class UiAssetManager(QtGui.QMainWindow):
             taskItem.slug = values["name"]
             taskItem.inactive = values["inactive"]
             taskItem.taskNiceName = self.assetTasksSwap[taskItem.task]
-            taskItem.setText(
-                0, "%s %s" % (taskItem.taskNiceName, taskItem.fork))
-#             taskItem.setFont(0, taskFont)
+            taskItem.setText(0, "%s %s" % (taskItem.taskNiceName,
+                                           taskItem.fork))
             taskIcon = utils.getIconPath(taskItem.taskNiceName)
             taskIcon = QtGui.QIcon(taskIcon)
             taskItem.setIcon(0, taskIcon)
@@ -1524,16 +1529,18 @@ class UiAssetManager(QtGui.QMainWindow):
             "Refresh the tree with last elements from the DataBase.")
 
         # Title
-        self.setWindowTitle(QtGui.QApplication.translate(
-            "Asset Manager", "Asset Manager", None, QtGui.QApplication.UnicodeUTF8))
+        self.setWindowTitle("Asset Manager")
         self.labelSystemTitle.setPixmap(utils.getIconPath(self.launcher))
-        self.labelProjectTitle.setText(QtGui.QApplication.translate(
-            "MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">Project</span><span style=\" font-size:12pt;\"/><span style=\" font-size:12pt; font-weight:600;\">:</span><span style=\" font-size:12pt;\"> %s</span></p></body></html>" % (self.project), None, QtGui.QApplication.UnicodeUTF8))
+        self.labelProjectTitle.setText("<html><head/><body><p><span style=\"\
+        font-size:12pt; font-weight:600;\">Project</span><span style=\"\
+        font-size:12pt;\"/><span style=\" font-size:12pt;font-weight:600;\
+        \">:</span><span style=\" font-size:12pt;\"> %s</span></p></body>\
+        </html>" % (self.project))
 
 
 def systemAM():
     app = QtGui.QApplication(sys.argv)
-#     app.setStyle("windows")
+    app.setStyle("plastique")
     main = UiAssetManager()
     main.show()
     app.exec_()
