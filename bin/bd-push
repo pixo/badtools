@@ -39,17 +39,19 @@ def bdPush(path, description, db):
 if __name__ == '__main__':
 
     if badass.utils.isEnvSet():
+    	db = badass.core.getDb()
 
-        parser = optparse.OptionParser()
-        parser.add_option("-p", "--push", help="input file or directory")
-        parser.add_option("-c", "--comment", help="comment")
-        (opts, args) = parser.parse_args()
+    	if db is not None:
+	        parser = optparse.OptionParser()
+	        parser.add_option("-p", "--push", help="input file or directory")
+	        parser.add_option("-c", "--comment", help="comment")
+	        (opts, args) = parser.parse_args()
 
-        if opts.push is None:
-            print "No directory or file to push. Please check help, -h"
+	        if opts.push is None:
+	            print "No directory or file to push. Please check help, -h"
 
-        elif opts.comment is None:
-            print "No comments provided. Please check help, -h"
+	        elif opts.comment is None:
+	            print "No comments provided. Please check help, -h"
 
-        else:
-            bdPush(opts.push, opts.comment)
+	        else:
+	            bdPush(opts.push, opts.comment, db)

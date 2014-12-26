@@ -8,4 +8,5 @@ rez_install_files(
 	${all_files}
 	RELATIVE .
 	DESTINATION .
+	EXECUTABLE
 )
