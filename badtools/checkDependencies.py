@@ -312,6 +312,7 @@ class UiCheckDependencies ( QtGui.QMainWindow ):
 
 if __name__ == '__main__':
     app = QtGui.QApplication ( sys.argv )
+    app.setStyle("plastique")
     fpath = "/homeworks/projects/bls/shot/studio-bls/lay/main/006/bls_shot_studio-bls_lay_main.ma"
     main = UiCheckDependencies ( fpath = fpath )
     main.show ()

@@ -293,6 +293,7 @@ class UiProjectCloner ( QtGui.QWidget ):
 
 if __name__ == '__main__':
     app = QtGui.QApplication ( sys.argv )
+    app.setStyle("plastique")
     main = UiProjectCloner ()
     main.show()
     app.exec_()

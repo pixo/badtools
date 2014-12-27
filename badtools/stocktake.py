@@ -252,6 +252,7 @@ class UiBreakDown(QtGui.QMainWindow):
 
 def systemAM () :
     app=QtGui.QApplication (sys.argv)
+    app.setStyle("plastique")
     main=UiBreakDown()
     main.show()
     app.exec_()

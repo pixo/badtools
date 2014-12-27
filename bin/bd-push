@@ -8,7 +8,7 @@ import badass.utils
 
 
 def bdPush(path, description, db):
-
+    # TODO: Documentation for bdPush()
     if not os.path.isabs(path):
         path = os.path.abspath(path)
 
