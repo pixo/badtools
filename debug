@@ -1,15 +1,8 @@
 #!/bin/bash
 
-export BD_ASS=/homeworks/users/pixo/packages/int/badass
-export BD_DBADRESS=admin:admin@127.0.0.1:5984
-export BD_HOSTROOT=homeworks@127.0.0.1:/volume1
-export BD_PROJECT=wfg
-export BD_DBNAME=$BD_PROJECT
-
 export BD_TOOLSVER=0.1.0
 export BD_TOOLS=`pwd`
 export BD_ICONS=$BD_TOOLS/icons
 export PYTHONPATH=$BD_ASS:$BD_TOOLS:$PYTHONPATH
 export PATH=`pwd`/bin:$PATH
-
-rez-env pyside pycouchdb liclipse sublime
+liclipse
