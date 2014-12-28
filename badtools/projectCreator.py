@@ -30,7 +30,7 @@ class UiProjectCreator (QtGui.QMainWindow):
         huser = self.lineEdit_husername.text()
         hadress = self.lineEdit_hadress.text()
         hroot = self.lineEdit_root.text()
-        rootadress = "%s@%s:/%s" % (huser, hadress, hroot)
+        sync_root = "%s@%s:/%s" % (huser, hadress, hroot)
 
         '''Collect DB data'''
         user = self.lineEdit_username.text()
@@ -38,13 +38,13 @@ class UiProjectCreator (QtGui.QMainWindow):
         adress = self.lineEdit_adress.text()
         serveradress = "%s:%s@%s" % (user, password, adress)
         description = self.plainTextEdit_description.toPlainText()
-        badassversion = self.comboBoxVersions.currentText()
 
         doc = badass.core.createProject(name=name, description=description,
                                         db_server=serveradress,
-                                        sync_root=rootadress)
-        badass.core.createProjectBoot(name=name, serveradress=serveradress,
-                                      root=huser, sync_root=hroot)
+                                        sync_root=sync_root)
+
+        badass.core.createProjectBoot(name=name, serveradress=adress,
+                                      root=huser, sync_root=sync_root)
 
         if doc:
             msg = "'%s' added to db '%s'" % (name, name)
@@ -80,20 +80,52 @@ class UiProjectCreator (QtGui.QMainWindow):
         self.verticalLayout = QtGui.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
 
-        # DB Adress
-        self.horizontalLayout_adress = QtGui.QHBoxLayout()
-        self.horizontalLayout_adress.setObjectName("horizontalLayout_adress")
-        self.label_adress = QtGui.QLabel(self)
-        self.label_adress.setObjectName("label_adress")
-        self.label_adress.setMinimumSize(QtCore.QSize(80, 0))
-        self.horizontalLayout_adress.addWidget(self.label_adress)
-        self.labelpixmap_adress = QtGui.QLabel(self)
-        self.labelpixmap_adress.setObjectName("labelpixmap_adress")
-        self.horizontalLayout_adress.addWidget(self.labelpixmap_adress)
-        self.lineEdit_adress = QtGui.QLineEdit(self)
-        self.lineEdit_adress.setObjectName("lineEdit_adress")
-        self.horizontalLayout_adress.addWidget(self.lineEdit_adress)
-        self.verticalLayout.addLayout(self.horizontalLayout_adress)
+        # siteUserName
+        self.horizontalLayout_siteUsrNm = QtGui.QHBoxLayout()
+        self.horizontalLayout_siteUsrNm.setObjectName(
+            "horizontalLayout_siteUsrNm")
+        self.label_siteUsrNm = QtGui.QLabel(self)
+        self.label_siteUsrNm.setObjectName("label_siteUsrNm")
+        self.label_siteUsrNm.setMinimumSize(QtCore.QSize(90, 0))
+        self.horizontalLayout_siteUsrNm.addWidget(self.label_siteUsrNm)
+        self.labelpixmap_siteUsrNm = QtGui.QLabel(self)
+        self.labelpixmap_siteUsrNm.setObjectName("labelpixmap_siteUsrNm")
+        self.horizontalLayout_siteUsrNm.addWidget(self.labelpixmap_siteUsrNm)
+        self.lineEdit_siteUsrNm = QtGui.QLineEdit(self)
+        self.lineEdit_siteUsrNm.setObjectName("lineEdit_siteUsrNm")
+        self.horizontalLayout_siteUsrNm.addWidget(self.lineEdit_siteUsrNm)
+        self.verticalLayout.addLayout(self.horizontalLayout_siteUsrNm)
+
+        # sitePswd
+        self.horizontalLayoutSitePswd = QtGui.QHBoxLayout()
+        self.horizontalLayoutSitePswd.setObjectName("horizontalLayoutSitePswd")
+        self.labelSitePswd = QtGui.QLabel(self)
+        self.labelSitePswd.setObjectName("labelSitePswd")
+        self.labelSitePswd.setMinimumSize(QtCore.QSize(90, 0))
+        self.horizontalLayoutSitePswd.addWidget(self.labelSitePswd)
+        self.labelPixmapSitePswd = QtGui.QLabel(self)
+        self.labelPixmapSitePswd.setObjectName("labelPixmapSitePswd")
+        self.horizontalLayoutSitePswd.addWidget(self.labelPixmapSitePswd)
+        self.lineEditSitePswd = QtGui.QLineEdit(self)
+        self.lineEditSitePswd.setEchoMode(QtGui.QLineEdit.Password)
+        self.lineEditSitePswd.setObjectName("lineEditSitePswd")
+        self.horizontalLayoutSitePswd.addWidget(self.lineEditSitePswd)
+        self.verticalLayout.addLayout(self.horizontalLayoutSitePswd)
+
+        # siteRoot
+        self.horizontalLayout_siteRoot = QtGui.QHBoxLayout()
+        self.horizontalLayout_siteRoot.setObjectName("horizontLayout_siteRoot")
+        self.label_siteRoot = QtGui.QLabel(self)
+        self.label_siteRoot.setObjectName("label_siteRoot")
+        self.label_siteRoot.setMinimumSize(QtCore.QSize(90, 0))
+        self.horizontalLayout_siteRoot.addWidget(self.label_siteRoot)
+        self.labelpixmap_siteRoot = QtGui.QLabel(self)
+        self.labelpixmap_siteRoot.setObjectName("labelpixmap_siteRoot")
+        self.horizontalLayout_siteRoot.addWidget(self.labelpixmap_siteRoot)
+        self.lineEdit_siteRoot = QtGui.QLineEdit(self)
+        self.lineEdit_siteRoot.setObjectName("lineEdit_siteRoot")
+        self.horizontalLayout_siteRoot.addWidget(self.lineEdit_siteRoot)
+        self.verticalLayout.addLayout(self.horizontalLayout_siteRoot)
 
         # username
         self.horizontalLayout_username = QtGui.QHBoxLayout()
@@ -101,7 +133,7 @@ class UiProjectCreator (QtGui.QMainWindow):
             "horizontalLayout_username")
         self.label_username = QtGui.QLabel(self)
         self.label_username.setObjectName("label_username")
-        self.label_username.setMinimumSize(QtCore.QSize(80, 0))
+        self.label_username.setMinimumSize(QtCore.QSize(90, 0))
         self.horizontalLayout_username.addWidget(self.label_username)
         self.labelpixmap_username = QtGui.QLabel(self)
         self.labelpixmap_username.setObjectName("labelpixmap_username")
@@ -116,7 +148,7 @@ class UiProjectCreator (QtGui.QMainWindow):
         self.horizontalLayoutPassword.setObjectName("horizontalLayoutPassword")
         self.labelPassword = QtGui.QLabel(self)
         self.labelPassword.setObjectName("labelPassword")
-        self.labelPassword.setMinimumSize(QtCore.QSize(80, 0))
+        self.labelPassword.setMinimumSize(QtCore.QSize(90, 0))
         self.horizontalLayoutPassword.addWidget(self.labelPassword)
         self.labelPixmapPassword = QtGui.QLabel(self)
         self.labelPixmapPassword.setObjectName("labelPixmapPassword")
@@ -127,20 +159,20 @@ class UiProjectCreator (QtGui.QMainWindow):
         self.horizontalLayoutPassword.addWidget(self.lineEditPassword)
         self.verticalLayout.addLayout(self.horizontalLayoutPassword)
 
-        # host adress
-        self.horizontalLayout_hadress = QtGui.QHBoxLayout()
-        self.horizontalLayout_hadress.setObjectName("horizontalLayout_hadress")
-        self.label_hadress = QtGui.QLabel(self)
-        self.label_hadress.setObjectName("label_hadress")
-        self.label_hadress.setMinimumSize(QtCore.QSize(80, 0))
-        self.horizontalLayout_hadress.addWidget(self.label_hadress)
-        self.labelpixmap_hadress = QtGui.QLabel(self)
-        self.labelpixmap_hadress.setObjectName("labelpixmap_hadress")
-        self.horizontalLayout_hadress.addWidget(self.labelpixmap_hadress)
-        self.lineEdit_hadress = QtGui.QLineEdit(self)
-        self.lineEdit_hadress.setObjectName("lineEdit_hadress")
-        self.horizontalLayout_hadress.addWidget(self.lineEdit_hadress)
-        self.verticalLayout.addLayout(self.horizontalLayout_hadress)
+        # DB Adress
+        self.horizontalLayout_adress = QtGui.QHBoxLayout()
+        self.horizontalLayout_adress.setObjectName("horizontalLayout_adress")
+        self.label_adress = QtGui.QLabel(self)
+        self.label_adress.setObjectName("label_adress")
+        self.label_adress.setMinimumSize(QtCore.QSize(90, 0))
+        self.horizontalLayout_adress.addWidget(self.label_adress)
+        self.labelpixmap_adress = QtGui.QLabel(self)
+        self.labelpixmap_adress.setObjectName("labelpixmap_adress")
+        self.horizontalLayout_adress.addWidget(self.labelpixmap_adress)
+        self.lineEdit_adress = QtGui.QLineEdit(self)
+        self.lineEdit_adress.setObjectName("lineEdit_adress")
+        self.horizontalLayout_adress.addWidget(self.lineEdit_adress)
+        self.verticalLayout.addLayout(self.horizontalLayout_adress)
 
         # host username
         self.horizontalLayout_husername = QtGui.QHBoxLayout()
@@ -148,7 +180,7 @@ class UiProjectCreator (QtGui.QMainWindow):
             "horizontalLayout_husername")
         self.label_husername = QtGui.QLabel(self)
         self.label_husername.setObjectName("label_husername")
-        self.label_husername.setMinimumSize(QtCore.QSize(80, 0))
+        self.label_husername.setMinimumSize(QtCore.QSize(90, 0))
         self.horizontalLayout_husername.addWidget(self.label_husername)
         self.labelpixmap_husername = QtGui.QLabel(self)
         self.labelpixmap_husername.setObjectName("labelpixmap_username")
@@ -162,7 +194,7 @@ class UiProjectCreator (QtGui.QMainWindow):
         self.horizontalLayout_root = QtGui.QHBoxLayout()
         self.horizontalLayout_root.setObjectName("horizontalLayout_root")
         self.label_root = QtGui.QLabel(self.centralwidget)
-        self.label_root.setMinimumSize(QtCore.QSize(80, 0))
+        self.label_root.setMinimumSize(QtCore.QSize(90, 0))
         self.label_root.setObjectName("label_root")
         self.horizontalLayout_root.addWidget(self.label_root)
         self.labelpixmap_root = QtGui.QLabel(self)
@@ -174,11 +206,26 @@ class UiProjectCreator (QtGui.QMainWindow):
         self.verticalLayout.addLayout(self.horizontalLayout_root)
         self.label_root.setText("Host root")
 
+        # host adress
+        self.horizontalLayout_hadress = QtGui.QHBoxLayout()
+        self.horizontalLayout_hadress.setObjectName("horizontalLayout_hadress")
+        self.label_hadress = QtGui.QLabel(self)
+        self.label_hadress.setObjectName("label_hadress")
+        self.label_hadress.setMinimumSize(QtCore.QSize(90, 0))
+        self.horizontalLayout_hadress.addWidget(self.label_hadress)
+        self.labelpixmap_hadress = QtGui.QLabel(self)
+        self.labelpixmap_hadress.setObjectName("labelpixmap_hadress")
+        self.horizontalLayout_hadress.addWidget(self.labelpixmap_hadress)
+        self.lineEdit_hadress = QtGui.QLineEdit(self)
+        self.lineEdit_hadress.setObjectName("lineEdit_hadress")
+        self.horizontalLayout_hadress.addWidget(self.lineEdit_hadress)
+        self.verticalLayout.addLayout(self.horizontalLayout_hadress)
+
         # Project slug
         self.horizontalLayout_project = QtGui.QHBoxLayout()
         self.horizontalLayout_project.setObjectName("horizontalLayout_project")
         self.label_project = QtGui.QLabel(self.centralwidget)
-        self.label_project.setMinimumSize(QtCore.QSize(80, 0))
+        self.label_project.setMinimumSize(QtCore.QSize(90, 0))
         self.label_project.setObjectName("label_project")
         self.horizontalLayout_project.addWidget(self.label_project)
         self.labelpixmap_project = QtGui.QLabel(self)
@@ -188,29 +235,6 @@ class UiProjectCreator (QtGui.QMainWindow):
         self.lineEdit_project.setObjectName("lineEdit_project")
         self.horizontalLayout_project.addWidget(self.lineEdit_project)
         self.verticalLayout.addLayout(self.horizontalLayout_project)
-
-        # Asset manager version
-        self.horizontalLayoutVersions = QtGui.QHBoxLayout()
-        self.horizontalLayoutVersions.setObjectName("horizontalLayoutVersions")
-        self.label_version = QtGui.QLabel(self.centralwidget)
-        self.label_version.setMinimumSize(QtCore.QSize(80, 0))
-        self.label_version.setObjectName("label_version")
-        self.horizontalLayoutVersions.addWidget(self.label_version)
-        self.labelpixmap_version = QtGui.QLabel(self)
-        self.labelpixmap_version.setObjectName("labelpixmap_version")
-        self.horizontalLayoutVersions.addWidget(self.labelpixmap_version)
-        self.comboBoxVersions = QtGui.QComboBox(self.centralwidget)
-        self.comboBoxVersions.setAccessibleName("")
-        self.comboBoxVersions.setObjectName("comboBoxVersions")
-        self.horizontalLayoutVersions.addWidget(self.comboBoxVersions)
-        self.verticalLayout.addLayout(self.horizontalLayoutVersions)
-
-        spacerItem1 = QtGui.QSpacerItem(
-            40,
-            20,
-            QtGui.QSizePolicy.Expanding,
-            QtGui.QSizePolicy.Minimum)
-        self.horizontalLayoutVersions.addItem(spacerItem1)
 
         # Description
         self.verticalLayout_description = QtGui.QVBoxLayout()
@@ -258,6 +282,27 @@ class UiProjectCreator (QtGui.QMainWindow):
         QtCore.QMetaObject.connectSlotsByName(self)
 
     def setUi(self):
+        '''Host siteUserName'''
+        siteUserName = "admin"
+        icon = utils.getIconPath("admin")
+        self.label_siteUsrNm.setText("Site user")
+        self.labelpixmap_siteUsrNm.setPixmap(icon)
+        self.lineEdit_siteUsrNm.setText(siteUserName)
+
+        '''Site root'''
+        siteRoot = "homeworks"
+        icon = utils.getIconPath("hierarchy")
+        self.label_siteRoot.setText("Site root")
+        self.labelpixmap_siteRoot.setPixmap(icon)
+        self.lineEdit_siteRoot.setText(siteRoot)
+
+        '''Site Password'''
+        sitePswd = "admin"
+        icon = utils.getIconPath("password")
+        self.labelSitePswd.setText("Site password")
+        self.labelPixmapSitePswd.setPixmap(icon)
+        self.lineEditSitePswd.setText(sitePswd)
+
         '''Username'''
         username = "admin"
         icon = utils.getIconPath("admin")
@@ -308,10 +353,10 @@ class UiProjectCreator (QtGui.QMainWindow):
         self.lineEdit_project.setText(project)
 
         '''Version'''
-        icon = utils.getIconPath("title_16x16")
-        self.label_version.setText("Badass")
-        self.labelpixmap_version.setPixmap(icon)
-        self.comboBoxVersions.addItem(getBadassVersion())
+        # icon = utils.getIconPath("title_16x16")
+        # self.label_version.setText("Badass")
+        # self.labelpixmap_version.setPixmap(icon)
+        # self.comboBoxVersions.addItem(getBadassVersion())
 
         '''Create'''
         self.pushButton_create.setEnabled(False)

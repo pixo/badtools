@@ -2,7 +2,7 @@
 
 import sys
 from PySide import QtGui
-import badtools.apps.assetManager as am
+import badtools.assetManager as am
 
 if __name__ == '__main__':
     app = QtGui.QApplication(sys.argv)

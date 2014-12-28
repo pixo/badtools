@@ -1539,12 +1539,13 @@ class UiAssetManager(QtGui.QMainWindow):
 
 
 def systemAM():
-    app = QtGui.QApplication(sys.argv)
-    app.setStyle("plastique")
-    main = UiAssetManager()
-    main.show()
-    app.exec_()
-    sys.exit()
+    if badass.utils.isEnvSet():
+        app = QtGui.QApplication(sys.argv)
+        app.setStyle("plastique")
+        main = UiAssetManager()
+        main.show()
+        app.exec_()
+        sys.exit()
 
 if __name__ == '__main__':
     systemAM()
