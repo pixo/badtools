@@ -1363,10 +1363,9 @@ class UiAssetManager(QtGui.QMainWindow):
 
     def versionTypeChanged(self):
         item = self.treeWidgetMain.currentItem()
-        if (not item) or hasattr(item, "task") or not item.task:
+        if (not item) or not hasattr(item, "task"):
             return
         self.taskClicked()
-        self.filterTasks()
 
     def releaseAsset(self):
         "release task"

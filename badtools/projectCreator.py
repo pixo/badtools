@@ -43,8 +43,8 @@ class UiProjectCreator (QtGui.QMainWindow):
                                         db_server=serveradress,
                                         sync_root=sync_root)
 
-        badass.core.createProjectBoot(name=name, serveradress=adress,
-                                      root=huser, sync_root=sync_root)
+        utils.createProjectBoot(name=name, serveradress=adress,
+                                root=huser, sync_root=sync_root)
 
         if doc:
             msg = "'%s' added to db '%s'" % (name, name)
