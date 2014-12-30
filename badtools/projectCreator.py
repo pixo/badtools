@@ -26,6 +26,9 @@ class UiProjectCreator (QtGui.QMainWindow):
             self.statusbar.showMessage(msg)
             return
 
+        '''Site root'''
+        site_root = self.lineEdit_siteRoot.text()
+
         '''Collect host data'''
         huser = self.lineEdit_husername.text()
         hadress = self.lineEdit_hadress.text()
@@ -41,10 +44,11 @@ class UiProjectCreator (QtGui.QMainWindow):
 
         doc = badass.core.createProject(name=name, description=description,
                                         db_server=serveradress,
-                                        sync_root=sync_root)
+                                        sync_root=sync_root,
+                                        site_root=site_root)
 
-        utils.createProjectBoot(name=name, serveradress=adress,
-                                root=huser, sync_root=sync_root)
+        utils.createProjectBoot(name=name, serveradress=adress, root=huser,
+                                sync_root=sync_root, site_root=site_root)
 
         if doc:
             msg = "'%s' added to db '%s'" % (name, name)
@@ -79,38 +83,6 @@ class UiProjectCreator (QtGui.QMainWindow):
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.verticalLayout = QtGui.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
-
-        # siteUserName
-        self.horizontalLayout_siteUsrNm = QtGui.QHBoxLayout()
-        self.horizontalLayout_siteUsrNm.setObjectName(
-            "horizontalLayout_siteUsrNm")
-        self.label_siteUsrNm = QtGui.QLabel(self)
-        self.label_siteUsrNm.setObjectName("label_siteUsrNm")
-        self.label_siteUsrNm.setMinimumSize(QtCore.QSize(90, 0))
-        self.horizontalLayout_siteUsrNm.addWidget(self.label_siteUsrNm)
-        self.labelpixmap_siteUsrNm = QtGui.QLabel(self)
-        self.labelpixmap_siteUsrNm.setObjectName("labelpixmap_siteUsrNm")
-        self.horizontalLayout_siteUsrNm.addWidget(self.labelpixmap_siteUsrNm)
-        self.lineEdit_siteUsrNm = QtGui.QLineEdit(self)
-        self.lineEdit_siteUsrNm.setObjectName("lineEdit_siteUsrNm")
-        self.horizontalLayout_siteUsrNm.addWidget(self.lineEdit_siteUsrNm)
-        self.verticalLayout.addLayout(self.horizontalLayout_siteUsrNm)
-
-        # sitePswd
-        self.horizontalLayoutSitePswd = QtGui.QHBoxLayout()
-        self.horizontalLayoutSitePswd.setObjectName("horizontalLayoutSitePswd")
-        self.labelSitePswd = QtGui.QLabel(self)
-        self.labelSitePswd.setObjectName("labelSitePswd")
-        self.labelSitePswd.setMinimumSize(QtCore.QSize(90, 0))
-        self.horizontalLayoutSitePswd.addWidget(self.labelSitePswd)
-        self.labelPixmapSitePswd = QtGui.QLabel(self)
-        self.labelPixmapSitePswd.setObjectName("labelPixmapSitePswd")
-        self.horizontalLayoutSitePswd.addWidget(self.labelPixmapSitePswd)
-        self.lineEditSitePswd = QtGui.QLineEdit(self)
-        self.lineEditSitePswd.setEchoMode(QtGui.QLineEdit.Password)
-        self.lineEditSitePswd.setObjectName("lineEditSitePswd")
-        self.horizontalLayoutSitePswd.addWidget(self.lineEditSitePswd)
-        self.verticalLayout.addLayout(self.horizontalLayoutSitePswd)
 
         # siteRoot
         self.horizontalLayout_siteRoot = QtGui.QHBoxLayout()
@@ -282,26 +254,12 @@ class UiProjectCreator (QtGui.QMainWindow):
         QtCore.QMetaObject.connectSlotsByName(self)
 
     def setUi(self):
-        '''Host siteUserName'''
-        siteUserName = "admin"
-        icon = utils.getIconPath("admin")
-        self.label_siteUsrNm.setText("Site user")
-        self.labelpixmap_siteUsrNm.setPixmap(icon)
-        self.lineEdit_siteUsrNm.setText(siteUserName)
-
         '''Site root'''
         siteRoot = "homeworks"
         icon = utils.getIconPath("hierarchy")
         self.label_siteRoot.setText("Site root")
         self.labelpixmap_siteRoot.setPixmap(icon)
         self.lineEdit_siteRoot.setText(siteRoot)
-
-        '''Site Password'''
-        sitePswd = "admin"
-        icon = utils.getIconPath("password")
-        self.labelSitePswd.setText("Site password")
-        self.labelPixmapSitePswd.setPixmap(icon)
-        self.lineEditSitePswd.setText(sitePswd)
 
         '''Username'''
         username = "admin"

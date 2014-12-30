@@ -18,7 +18,7 @@ def getIconPath(name="default"):
     return path
 
 
-def createProjectBoot(name=False, serveradress=False, root=False,
+def createProjectBoot(name=False, serveradress=False, site_root="/homeworks",
                       sync_root=False):
     """
     This function create a project environment file.
@@ -41,11 +41,11 @@ def createProjectBoot(name=False, serveradress=False, root=False,
     >>> '/homeworks/projects/prod/boot/toolchain.sh'
     """
 
-    if not name or not serveradress or not root or not sync_root:
+    if not name or not serveradress or not site_root or not sync_root:
         return False
 
-    if root[0] is not "/":
-        root = "/" + root
+    if site_root[0] is not "/":
+        site_root = "/" + site_root
 
     # default toolchain definition
     toolchain = "declare -a ToolChain=(\n"
@@ -55,7 +55,7 @@ def createProjectBoot(name=False, serveradress=False, root=False,
 
     # default environment definition
     env = "export BD_PROJECT=%s\n" % name
-    env += "export BD_ROOT=%s\n" % root
+    env += "export BD_ROOT=%s\n" % site_root
     env += "export BD_HOME=$BD_ROOT/users/$USER\n"
     env += "export BD_REPO=$BD_ROOT/projects\n"
     env += "export BD_USER_REPO=$BD_HOME/projects\n"
@@ -64,7 +64,7 @@ def createProjectBoot(name=False, serveradress=False, root=False,
     env += "export BD_DBADRESS=badass:badass@%s\n" % serveradress
 
     # get toolchain and environment path
-    boot_dir = os.path.join(root, 'projects', name, 'boot')
+    boot_dir = os.path.join(site_root, 'projects', name, 'boot')
     env_file = os.path.join(boot_dir, "environment.sh")
     toolchain_file = os.path.join(boot_dir, "toolchain.sh")
 
