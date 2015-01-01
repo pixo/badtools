@@ -18,7 +18,7 @@ def getIconPath(name="default"):
     return path
 
 
-def createProjectBoot(name=False, serveradress=False, site_root="/homeworks",
+def createProjectBoot(name=False, serveradress=False, site_root="/badass",
                       sync_root=False):
     """
     This function create a project environment file.
@@ -36,9 +36,9 @@ def createProjectBoot(name=False, serveradress=False, site_root="/homeworks",
     **Example:**
 
     >>> createProjectBoot(name="prod", serveradress="127.0.0.1",
-    >>>                  syncroot="192.168.0.24:/homeworks")
-    >>> '/homeworks/projects/prod/boot/environment.sh'
-    >>> '/homeworks/projects/prod/boot/toolchain.sh'
+    >>>                  sync_root="192.168.0.24:/volume1")
+    >>> '/badass/projects/prod/boot/environment.sh'
+    >>> '/badass/projects/prod/boot/toolchain.sh'
     """
 
     if not name or not serveradress or not site_root or not sync_root:
@@ -55,11 +55,11 @@ def createProjectBoot(name=False, serveradress=False, site_root="/homeworks",
 
     # default environment definition
     env = "export BD_PROJECT=%s\n" % name
-    env += "export BD_ROOT=%s\n" % site_root
+    env += "export BD_ROOT=%s\n" % site_root+
     env += "export BD_HOME=$BD_ROOT/users/$USER\n"
     env += "export BD_REPO=$BD_ROOT/projects\n"
     env += "export BD_USER_REPO=$BD_HOME/projects\n"
-    env += "export BD_SHARE=$BD_ROOT/softwares/share\n"
+    env += "export BD_SHARE=$BD_ROOT/softs\n"
     env += "export BD_SYNCROOT=%s\n" % sync_root    # TODO: Fixe adress
     env += "export BD_DBADRESS=badass:badass@%s\n" % serveradress
 

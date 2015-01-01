@@ -27,7 +27,7 @@ class UiProjectCloner ( QtGui.QWidget ):
             return
 
         current = self.comboBox_project.currentText ()
-        root = "/homeworks"
+        root = "/badass"
 
         """"Project Descriptions"""
         description = ""
@@ -191,7 +191,7 @@ class UiProjectCloner ( QtGui.QWidget ):
         self.horizontalLayout_project.addWidget( self.comboBox_project )
         self.verticalLayout.addLayout( self.horizontalLayout_project )
 
-        # Homeworks root
+        # badass root
         self.horizontalLayout_root = QtGui.QHBoxLayout ()
         self.horizontalLayout_root.setObjectName ( "horizontalLayout_root" )
         self.label_root = QtGui.QLabel ( self )
@@ -269,7 +269,7 @@ class UiProjectCloner ( QtGui.QWidget ):
 
 
         """Homework root"""
-        root = "/homeworks"
+        root = "/badass"
         icon = utils.getIconPath( "hierarchy" )
         self.label_root.setText ( "Project root" )
         self.lineEdit_root.setText ( root )

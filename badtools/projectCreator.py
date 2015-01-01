@@ -255,7 +255,7 @@ class UiProjectCreator (QtGui.QMainWindow):
 
     def setUi(self):
         '''Site root'''
-        siteRoot = "homeworks"
+        siteRoot = "badass"
         icon = utils.getIconPath("hierarchy")
         self.label_siteRoot.setText("Site root")
         self.labelpixmap_siteRoot.setPixmap(icon)
