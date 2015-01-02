@@ -47,7 +47,7 @@ class UiProjectCreator (QtGui.QMainWindow):
                                         sync_root=sync_root,
                                         site_root=site_root)
 
-        utils.createProjectBoot(name=name, serveradress=adress, root=huser,
+        utils.createProjectBoot(name=name, serveradress=adress,
                                 sync_root=sync_root, site_root=site_root)
 
         if doc:

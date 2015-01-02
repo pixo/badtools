@@ -55,7 +55,7 @@ def createProjectBoot(name=False, serveradress=False, site_root="/badass",
 
     # default environment definition
     env = "export BD_PROJECT=%s\n" % name
-    env += "export BD_ROOT=%s\n" % site_root+
+    env += "export BD_ROOT=%s\n" % site_root
     env += "export BD_HOME=$BD_ROOT/users/$USER\n"
     env += "export BD_REPO=$BD_ROOT/projects\n"
     env += "export BD_USER_REPO=$BD_HOME/projects\n"
