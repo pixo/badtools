@@ -59,7 +59,7 @@ def createProjectBoot(name=False, serveradress=False, site_root="/badass",
     env += "export BD_HOME=$BD_ROOT/users/$USER\n"
     env += "export BD_REPO=$BD_ROOT/projects\n"
     env += "export BD_USER_REPO=$BD_HOME/projects\n"
-    env += "export BD_SHARE=$BD_ROOT/softs\n"
+    env += "export BD_SOFTS=$BD_ROOT/softs\n"
     env += "export BD_SYNCROOT=%s\n" % sync_root    # TODO: Fixe adress
     env += "export BD_DBADRESS=badass:badass@%s\n" % serveradress
 
@@ -71,5 +71,3 @@ def createProjectBoot(name=False, serveradress=False, site_root="/badass",
     # create toolchain and environment file
     badass.utils.createFile(env_file, env)
     badass.utils.createFile(toolchain_file, toolchain)
-    os.chmod(env_file, 0o644)
-    os.chmod(toolchain_file, 0o644)

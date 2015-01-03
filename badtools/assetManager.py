@@ -61,25 +61,23 @@ class UiPush (QtGui.QWidget):
         item = self.listWidget_file.currentItem()
 
         if item:
-            lspush = list()
-            self.progressBar.setHidden(False)
-            self.progressBar.setValue(0)
-            lspush.append(self.dictpath[item.text()])
-            description = self.plainTextEdit_description.toPlainText()
-
-            badass.core.push(self.db, self.docId, lspush, description,
-                             self.progressBar, self.msgbar)
-
-            self.progressBar.setHidden(True)
+            # self.progressBar.setHidden(False)
+            # self.progressBar.setValue(0)
+            path = self.dictpath[item.text()]
+            comment = self.plainTextEdit_comment.toPlainText()
+#             badass.core.push(self.db, self.docId, lspush, comment,
+#                              self.progressBar, self.msgbar)
+            badass.core.push(doc_id=self.docId, path=path, comment=comment)
+#             self.progressBar.setHidden(True)
             self.assetManager.refreshTasks()
             self.close()
         else:
             self.labelStatus.setText("Please select an item to publish")
 
-    def descriptionChanged(self):
-        description = self.plainTextEdit_description.toPlainText()
+    def commentChanged(self):
+        comment = self.plainTextEdit_comment.toPlainText()
 
-        if description == "":
+        if comment == "":
             self.pushButton.setEnabled(False)
 
         else:
@@ -92,8 +90,8 @@ class UiPush (QtGui.QWidget):
         """ Connect the UI to the Ui_AssetWindow methods """
         self.pushButton.clicked.connect(self.pushClicked)
         self.lineEditFile.textChanged.connect(self.fileLineChanged)
-        self.plainTextEdit_description.textChanged.connect(
-            self.descriptionChanged)
+        self.plainTextEdit_comment.textChanged.connect(
+            self.commentChanged)
         self.checkBox.clicked.connect(self.checkBoxClicked)
 
     def __init__(self, parent=None, db=None, item="", assetManager=None,
@@ -175,15 +173,15 @@ class UiPush (QtGui.QWidget):
 
         self.verticalLayout = QtGui.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
-        self.label_description = QtGui.QLabel(self)
-        self.label_description.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_description.setObjectName("label_description")
-        self.verticalLayout.addWidget(self.label_description)
-        self.plainTextEdit_description = QtGui.QPlainTextEdit(self)
-        self.plainTextEdit_description.setMinimumSize(QtCore.QSize(300, 300))
-        self.plainTextEdit_description.setObjectName(
-            "plainTextEdit_description")
-        self.verticalLayout.addWidget(self.plainTextEdit_description)
+        self.label_comment = QtGui.QLabel(self)
+        self.label_comment.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_comment.setObjectName("label_comment")
+        self.verticalLayout.addWidget(self.label_comment)
+        self.plainTextEdit_comment = QtGui.QPlainTextEdit(self)
+        self.plainTextEdit_comment.setMinimumSize(QtCore.QSize(300, 300))
+        self.plainTextEdit_comment.setObjectName(
+            "plainTextEdit_comment")
+        self.verticalLayout.addWidget(self.plainTextEdit_comment)
         self.horizontalLayoutCenter.addLayout(self.verticalLayout)
         self.verticalLayoutCenter.addLayout(self.horizontalLayoutCenter)
 
@@ -232,8 +230,8 @@ class UiPush (QtGui.QWidget):
                                  :</span><span style=\" font-size:12pt;\">
                                 '%s'</span></p></body></html>""" % self.docId)
 
-        self.label_description.setText("""<html><head/><body><p><span style=\"
-                                        font-weight:600;\">Description</span>
+        self.label_comment.setText("""<html><head/><body><p><span style=\"
+                                        font-weight:600;\">Comment</span>
                                         </p></body></html>""")
 
         self.listWidget_file.setSortingEnabled(True)
@@ -287,11 +285,11 @@ class UiCreateAsset(QtGui.QWidget):
             self.label_status.setText(msg % name)
             return
 
-        description = self.plainTextEdit.toPlainText()
+        comment = self.plainTextEdit.toPlainText()
         doc_id = "%s_%s_%s" % (
             badass.utils.getProjectName(), currentType, name)
 
-        doc = badass.core.createAsset(doc_id=doc_id, description=description)
+        doc = badass.core.createAsset(doc_id=doc_id, comment=comment)
         if doc:
             self.lineEdit.setText("")
             self.label_status.setText("%s created" % doc_id)
@@ -302,8 +300,8 @@ class UiCreateAsset(QtGui.QWidget):
         self.close()
 
     def plainTextEditChanged(self):
-        descriptions = self.plainTextEdit.toPlainText()
-        if descriptions == "":
+        comments = self.plainTextEdit.toPlainText()
+        if comments == "":
             self.pushButton.setEnabled(False)
         else:
             self.pushButton.setEnabled(True)
@@ -361,14 +359,14 @@ class UiCreateAsset(QtGui.QWidget):
         self.pushButton = QtGui.QPushButton(self)
         self.pushButton.setObjectName("pushButton")
         self.pushButton.setText("create")
-        self.pushButton.setToolTip("Make sure to create a description")
+        self.pushButton.setToolTip("Make sure to create a comment")
         self.pushButton.setEnabled(False)
         self.horizontalLayout.addWidget(self.pushButton)
         self.verticalLayoutMain.addLayout(self.horizontalLayout)
-        self.label_description = QtGui.QLabel(self)
-        self.label_description.setObjectName("label_description")
-        self.label_description.setText("Description:")
-        self.verticalLayoutMain.addWidget(self.label_description)
+        self.label_comment = QtGui.QLabel(self)
+        self.label_comment.setObjectName("label_comment")
+        self.label_comment.setText("Comment:")
+        self.verticalLayoutMain.addWidget(self.label_comment)
         self.plainTextEdit = QtGui.QPlainTextEdit(self)
         self.plainTextEdit.setObjectName("plainTextEdit")
         self.verticalLayoutMain.addWidget(self.plainTextEdit)
@@ -403,7 +401,7 @@ class UiCreateTask (QtGui.QWidget):
         tasks = badass.utils.getAssetTasks()
         assetId = self.item.id
         fork = self.lineEditFork.text()
-        description = self.plainTextEditComments.toPlainText()
+        comment = self.plainTextEditComments.toPlainText()
 
         if fork != "":
             for i in range(0, self.listWidgetTask.count()):
@@ -413,7 +411,7 @@ class UiCreateTask (QtGui.QWidget):
                     task = tasks[item.text()]
                     doc_id = "%s_%s_%s" % (assetId, task, fork)
                     doc = badass.core.createTask(
-                        doc_id=doc_id, description=description)
+                        doc_id=doc_id, comment=comment)
 
                     if doc:
                         self.labelStatus.setText("%s created" % doc_id)
@@ -445,13 +443,13 @@ class UiCreateTask (QtGui.QWidget):
         """Get fork lineEdit """
         fork = self.lineEditFork.text()
 
-        """Get Description test"""
+        """Get Comment test"""
         textdoc = self.plainTextEditComments.document()
-        description = textdoc.toPlainText()
+        comment = textdoc.toPlainText()
 
         if fork != "":
-            """Check if description is not empty to enable it"""
-            if description != "":
+            """Check if comment is not empty to enable it"""
+            if comment != "":
                 self.pushButton.setEnabled(True)
 
             else:
@@ -497,9 +495,9 @@ class UiCreateTask (QtGui.QWidget):
     def commentsChanged(self):
         textdoc = self.plainTextEditComments.document()
         fork = self.lineEditFork.text()
-        description = textdoc.toPlainText()
+        comment = textdoc.toPlainText()
 
-        if description == "" or fork == "":
+        if comment == "" or fork == "":
             self.pushButton.setEnabled(False)
 
         else:
@@ -637,7 +635,7 @@ class UiCreateTask (QtGui.QWidget):
         self.labelFork.setToolTip("Select the fork or create a new one.")
         self.labelComments.setText(QtGui.QApplication.translate(
             "Form", "<html><head/><body><p><span style=\" font-weight:600;\"\
-            >Description</span></p></body></html>", None,
+            >Comment</span></p></body></html>", None,
             QtGui.QApplication.UnicodeUTF8))
         self.pushButton.setText(QtGui.QApplication.translate(
             "Form", "create", None, QtGui.QApplication.UnicodeUTF8))
@@ -1247,9 +1245,9 @@ class UiAssetManager(QtGui.QMainWindow):
         self.comboBoxVersions.setDisabled(True)
         self.comboBoxVersions.clear()
 
-        # Description
+        # Comment
         doc = self.db[item.id]
-        self.setDescription(item, doc)
+        self.setComment(item, doc)
 
     def taskClicked(self):
         "Set Ui when a task is clicked"
@@ -1299,7 +1297,7 @@ class UiAssetManager(QtGui.QMainWindow):
         self.comboBoxVersions.setDisabled(stat)
         self.buttonReleaseToolBar.setDisabled(stat)
 
-    def setDescription(self, item, doc):
+    def setComment(self, item, doc):
         info = ""
         image = utils.getIconPath("title_mid")
 
@@ -1311,9 +1309,10 @@ class UiAssetManager(QtGui.QMainWindow):
                 'created' in doc) else 0
             created = time.strftime("%Y %b %d %H:%M:%S", created)
             created = "\nCreated:\t%s\n" % created
-            description = "\nDescription:\n\t%s\n" % doc[
-                'description'] if ('description' in doc) else ''
-            info = creator + created + description
+            comment = "\nComment:\n\t%s\n" % doc[
+                      "comment"] if ('comment' in doc) else ""
+            path = "\nPath:\n\t%s\n" % doc['path']if ('path' in doc) else ""
+            info = creator + created + comment + path
 
             # Set screenshot
             if "path" in doc:
@@ -1353,13 +1352,13 @@ class UiAssetManager(QtGui.QMainWindow):
         if (not item) or (not item.task):
             return
 
-        # Description
+        # Comment
         versionType = self.comboBoxVersionType.currentText()
         value = self.db[item.id]
         versions = value[versionType]
         version = self.comboBoxVersions.currentText()
         doc = None if version == "" else versions[str(int(version))]
-        self.setDescription(item, doc)
+        self.setComment(item, doc)
 
     def versionTypeChanged(self):
         item = self.treeWidgetMain.currentItem()

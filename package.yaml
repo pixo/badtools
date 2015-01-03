@@ -3,7 +3,7 @@ uuid : 5f149b14-745c-43ac-bddc-c0cf1a91cd17
 description : "badtools contains a bunch of asset and project managements tools."
 authors : [Rachid Chikh]
 config_version : 0
-version : 0.0.11
+version : 0.0.14
 
 requires :
 - badass

@@ -6,7 +6,6 @@ Created on Mar 5, 2013
 import sys
 import re
 import badass.core
-from badass.utils import getBadassVersion
 import utils
 from PySide import QtCore, QtGui
 
@@ -42,17 +41,20 @@ class UiProjectCreator (QtGui.QMainWindow):
         serveradress = "%s:%s@%s" % (user, password, adress)
         description = self.plainTextEdit_description.toPlainText()
 
+        '''Create project on DB'''
         doc = badass.core.createProject(name=name, description=description,
                                         db_server=serveradress,
                                         sync_root=sync_root,
                                         site_root=site_root)
 
-        utils.createProjectBoot(name=name, serveradress=adress,
-                                sync_root=sync_root, site_root=site_root)
-
         if doc:
-            msg = "'%s' added to db '%s'" % (name, name)
+            '''Create project data on FS'''
+            utils.createProjectBoot(name=name, serveradress=adress,
+                                    sync_root=sync_root, site_root=site_root)
+
+            msg = "'%s' added to db" % name
             self.statusbar.showMessage(msg)
+
             print msg
             self.close()
 
@@ -309,12 +311,6 @@ class UiProjectCreator (QtGui.QMainWindow):
         self.label_project.setText("Project slug")
         self.labelpixmap_project.setPixmap(icon)
         self.lineEdit_project.setText(project)
-
-        '''Version'''
-        # icon = utils.getIconPath("title_16x16")
-        # self.label_version.setText("Badass")
-        # self.labelpixmap_version.setPixmap(icon)
-        # self.comboBoxVersions.addItem(getBadassVersion())
 
         '''Create'''
         self.pushButton_create.setEnabled(False)

@@ -7,7 +7,7 @@ import badass.core
 import badass.utils
 
 
-def bdPush(path, description, db):
+def bdPush(path=False, comment=False, doc_id=False):
     # TODO: Documentation for bdPush()
     if not os.path.isabs(path):
         path = os.path.abspath(path)
@@ -16,42 +16,42 @@ def bdPush(path, description, db):
         print "bd-texture-publish: %s doesn't exists" % path
         return 1
 
-    doc_id = badass.core.getIdFromPath(path)
+    if not doc_id: 
+        doc_id = badass.core.getIdFromPath(path)
 
-    if not (doc_id in db):
-        print "bd-push: %s isn't in the  database" % doc_id
-        return 1
+    badass.core.push(path=path, comment=comment, doc_id=doc_id)
+    # if not (doc_id in db):
+    #     print "bd-push: %s isn't in the  database" % doc_id
+    #     return 1
 
-    if os.path.isdir(path):
-        badass.core.pushDir(
-            db=db,
-            doc_id=doc_id,
-            path=path,
-            description=description)
+    # if os.path.isdir(path):
+    #     badass.core.pushDir(
+    #         db=db,
+    #         doc_id=doc_id,
+    #         path=path,
+    #         comment=comment)
 
-    else:
-        badass.core.pushFile(
-            db=db,
-            doc_id=doc_id,
-            path=path,
-            description=description)
+    # else:
+    #     badass.core.pushFile(
+    #         db=db,
+    #         doc_id=doc_id,
+    #         path=path,
+    #         comment=comment)
 
 if __name__ == '__main__':
 
     if badass.utils.isEnvSet():
-    	db = badass.core.getDb()
+        parser = optparse.OptionParser()
+        parser.add_option("-p", "--push", help="input file or directory")
+        parser.add_option("-c", "--comment", help="comment")
+        parser.add_option("-d", "--docid", help="document id")
+        (opts, args) = parser.parse_args()
 
-    	if db is not None:
-	        parser = optparse.OptionParser()
-	        parser.add_option("-p", "--push", help="input file or directory")
-	        parser.add_option("-c", "--comment", help="comment")
-	        (opts, args) = parser.parse_args()
+        if opts.push is None:
+            print "No directory or file to push. Please check help, -h"
 
-	        if opts.push is None:
-	            print "No directory or file to push. Please check help, -h"
+        elif opts.comment is None:
+            print "No comments provided. Please check help, -h"
 
-	        elif opts.comment is None:
-	            print "No comments provided. Please check help, -h"
-
-	        else:
-	            bdPush(opts.push, opts.comment, db)
+        else:
+            bdPush(opts.push, opts.comment, opts.docid)
