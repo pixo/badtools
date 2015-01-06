@@ -51,6 +51,7 @@ def createProjectBoot(name=False, serveradress=False, site_root="/badass",
     toolchain = "declare -a ToolChain=(\n"
     toolchain += "'badtools'\n"
     toolchain += "'badpack'\n"
+    toolchain += "'badplugs'\n"
     toolchain += ")\n"
 
     # default environment definition

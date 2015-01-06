@@ -1,15 +1,4 @@
-import badass.plugin as plugin
+import badass.core as core
 
-
-hooked = "badass.core.push"
-plugins = plugin.getPlugins()
-plugin.runPreCmds(hooked, plugins)
-plugin.runPostCmds(hooked, plugins)
-
-# module = getPlugins("push")
-# plugin = loadPlugin(module)
-# plug = plugin.initialize()
-# plug.pre(tt="tt")
-# plug.post(stat=True, yop="aa")
-
-# print getPluginsPaths()
+path = "/badass/users/pixo/projects/prj/chr/mickey/mod/a/aa.ma"
+core.push(doc_id="prj_chr_mickey_mod_a", path=path, comment="test callback")
