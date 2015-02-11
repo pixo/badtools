@@ -20,23 +20,6 @@ def bdPush(path=False, comment=False, doc_id=False):
         doc_id = badass.core.getIdFromPath(path)
 
     badass.core.push(path=path, comment=comment, doc_id=doc_id)
-    # if not (doc_id in db):
-    #     print "bd-push: %s isn't in the  database" % doc_id
-    #     return 1
-
-    # if os.path.isdir(path):
-    #     badass.core.pushDir(
-    #         db=db,
-    #         doc_id=doc_id,
-    #         path=path,
-    #         comment=comment)
-
-    # else:
-    #     badass.core.pushFile(
-    #         db=db,
-    #         doc_id=doc_id,
-    #         path=path,
-    #         comment=comment)
 
 if __name__ == '__main__':
 
